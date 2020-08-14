@@ -57,7 +57,7 @@ class NetworkActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
             this,
-            AppInjection.provideViewModelFactory()
+            AppInjection.provideViewModelFactory(this)
         ).get(NetworkViewModel::class.java)
     }
 
