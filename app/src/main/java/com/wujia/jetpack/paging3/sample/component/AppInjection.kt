@@ -3,7 +3,7 @@ package com.wujia.jetpack.paging3.sample.component
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import com.wujia.jetpack.paging3.sample.data.AppRepository
-import com.wujia.jetpack.paging3.sample.data.local.RepoDataBase
+import com.wujia.jetpack.paging3.sample.data.local.RepoDatabase
 import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 
 object AppInjection {
@@ -13,7 +13,7 @@ object AppInjection {
      * [GithubLocalCache]
      */
     private fun provideGithubRepository(context: Context): AppRepository {
-        return AppRepository(GithubService.create(), RepoDataBase.getInstance(context))
+        return AppRepository(GithubService.create(), RepoDatabase.getInstance(context))
     }
 
     /**

@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.wujia.jetpack.paging3.sample.data.local.RemoteKeys
-import com.wujia.jetpack.paging3.sample.data.local.RepoDataBase
+import com.wujia.jetpack.paging3.sample.data.local.RepoDatabase
 import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.data.remote.IN_QUALIFIER
 import com.wujia.jetpack.paging3.sample.model.Repo
@@ -22,7 +22,7 @@ import java.io.InvalidObjectException
 class GithubRemoteMediator(
     private val query: String,
     private val service: GithubService,
-    private val repoDataBase: RepoDataBase
+    private val repoDatabase: RepoDatabase
 ) : RemoteMediator<Int, Repo>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repo>): MediatorResult {
@@ -56,10 +56,10 @@ class GithubRemoteMediator(
 
             val repos = apiResponse.items
             val endOfPaginationReached = repos.isEmpty()
-            repoDataBase.withTransaction {
+            repoDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    repoDataBase.remoteKeysDao().clearRemoteKeys()
-                    repoDataBase.reposDao().clearRepos()
+                    repoDatabase.remoteKeysDao().clearRemoteKeys()
+                    repoDatabase.reposDao().clearRepos()
                 }
                 val preKey = if (page == DEFAULT_INDEX) {
                     null
@@ -74,8 +74,8 @@ class GithubRemoteMediator(
                 val keys = repos.map {
                     RemoteKeys(repoId = it.id, prevKey = preKey, nextKey = nextKey)
                 }
-                repoDataBase.remoteKeysDao().insertAll(keys)
-                repoDataBase.reposDao().insertAll(repos)
+                repoDatabase.remoteKeysDao().insertAll(keys)
+                repoDatabase.reposDao().insertAll(repos)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (ex: IOException) {
@@ -88,21 +88,21 @@ class GithubRemoteMediator(
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Repo>): RemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()
             ?.let { repo: Repo ->
-                repoDataBase.remoteKeysDao().findRemoteKeysRepoId(repo.id)
+                repoDatabase.remoteKeysDao().findRemoteKeysRepoId(repo.id)
             }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Repo>): RemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
             ?.let { repo: Repo ->
-                repoDataBase.remoteKeysDao().findRemoteKeysRepoId(repo.id)
+                repoDatabase.remoteKeysDao().findRemoteKeysRepoId(repo.id)
             }
     }
 
     private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Repo>): RemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { repoId ->
-                repoDataBase.remoteKeysDao().findRemoteKeysRepoId(repoId)
+                repoDatabase.remoteKeysDao().findRemoteKeysRepoId(repoId)
             }
         }
     }

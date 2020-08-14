@@ -11,7 +11,7 @@ import com.wujia.jetpack.paging3.sample.model.Repo
     version = 1,
     exportSchema = false
 )
-abstract class RepoDataBase : RoomDatabase() {
+abstract class RepoDatabase : RoomDatabase() {
 
     abstract fun reposDao(): RepoDao
     abstract fun remoteKeysDao(): RemoteKeysDao
@@ -19,9 +19,9 @@ abstract class RepoDataBase : RoomDatabase() {
     companion object {
 
         @Volatile
-        private var INSTANCE: RepoDataBase? = null
+        private var INSTANCE: RepoDatabase? = null
 
-        fun getInstance(context: Context): RepoDataBase = INSTANCE ?: synchronized(this) {
+        fun getInstance(context: Context): RepoDatabase = INSTANCE ?: synchronized(this) {
             INSTANCE ?: buildDataBase(context).also {
                 INSTANCE = it
             }
@@ -29,7 +29,7 @@ abstract class RepoDataBase : RoomDatabase() {
 
         private fun buildDataBase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
-            RepoDataBase::class.java, "GitHub.db"
+            RepoDatabase::class.java, "GitHub.db"
         ).build()
     }
 }
