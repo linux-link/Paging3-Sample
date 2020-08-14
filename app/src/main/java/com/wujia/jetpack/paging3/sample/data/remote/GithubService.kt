@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 const val IN_QUALIFIER = "in:name,description"
 
-interface GitHubService {
+interface GithubService {
     /**
      * Get repos ordered by stars.
      */
@@ -24,7 +24,7 @@ interface GitHubService {
     companion object {
         private const val BASE_URL = "https://api.github.com/"
 
-        fun create(): GitHubService {
+        fun create(): GithubService {
             val logger = HttpLoggingInterceptor()
             logger.level = HttpLoggingInterceptor.Level.BASIC
 
@@ -36,7 +36,7 @@ interface GitHubService {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(GitHubService::class.java)
+                .create(GithubService::class.java)
         }
     }
 }

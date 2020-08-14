@@ -17,6 +17,7 @@ abstract class RepoDataBase : RoomDatabase() {
     abstract fun remoteKeysDao(): RemoteKeysDao
 
     companion object {
+
         @Volatile
         private var INSTANCE: RepoDataBase? = null
 

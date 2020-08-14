@@ -7,7 +7,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.wujia.jetpack.paging3.sample.data.local.RemoteKeys
 import com.wujia.jetpack.paging3.sample.data.local.RepoDataBase
-import com.wujia.jetpack.paging3.sample.data.remote.GitHubService
+import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.data.remote.IN_QUALIFIER
 import com.wujia.jetpack.paging3.sample.model.Repo
 import com.wujia.jetpack.paging3.sample.ui.net.DEFAULT_INDEX
@@ -21,7 +21,7 @@ import java.io.InvalidObjectException
 @OptIn(ExperimentalPagingApi::class)
 class GithubRemoteMediator(
     private val query: String,
-    private val service: GitHubService,
+    private val service: GithubService,
     private val repoDataBase: RepoDataBase
 ) : RemoteMediator<Int, Repo>() {
 
@@ -47,8 +47,11 @@ class GithubRemoteMediator(
                 remoteKeys.nextKey
             }
         }
+
+        val apiQuery = query + IN_QUALIFIER
+
         try {
-            val apiQuery = query + IN_QUALIFIER
+
             val apiResponse = service.searchRepos(apiQuery, page, state.config.pageSize)
 
             val repos = apiResponse.items
@@ -58,11 +61,21 @@ class GithubRemoteMediator(
                     repoDataBase.remoteKeysDao().clearRemoteKeys()
                     repoDataBase.reposDao().clearRepos()
                 }
-                val preKeys = if (page == DEFAULT_INDEX) {
+                val preKey = if (page == DEFAULT_INDEX) {
                     null
                 } else {
                     page - 1
                 }
+                val nextKey = if (endOfPaginationReached) {
+                    null
+                } else {
+                    page + 1
+                }
+                val keys = repos.map {
+                    RemoteKeys(repoId = it.id, prevKey = preKey, nextKey = nextKey)
+                }
+                repoDataBase.remoteKeysDao().insertAll(keys)
+                repoDataBase.reposDao().insertAll(repos)
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (ex: IOException) {

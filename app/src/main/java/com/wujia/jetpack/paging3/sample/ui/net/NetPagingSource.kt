@@ -1,7 +1,7 @@
 package com.wujia.jetpack.paging3.sample.ui.net
 
 import androidx.paging.PagingSource
-import com.wujia.jetpack.paging3.sample.data.remote.GitHubService
+import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.data.remote.IN_QUALIFIER
 import com.wujia.jetpack.paging3.sample.model.Repo
 import retrofit2.HttpException
@@ -11,7 +11,7 @@ const val DEFAULT_INDEX = 1
 
 //TODO: PagingSource是什么？
 class NetPagingSource(
-    private val service: GitHubService,
+    private val service: GithubService,
     private val query: String
 ) : PagingSource<Int, Repo>() {
 

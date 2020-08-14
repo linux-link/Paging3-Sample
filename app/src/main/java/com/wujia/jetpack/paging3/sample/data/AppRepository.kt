@@ -4,15 +4,14 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.wujia.jetpack.paging3.sample.data.local.RepoDataBase
-import com.wujia.jetpack.paging3.sample.data.remote.GitHubService
+import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.model.Repo
-import com.wujia.jetpack.paging3.sample.ui.net.NetPagingSource
 import kotlinx.coroutines.flow.Flow
 
 const val PAGE_SIZE = 10
 
 class AppRepository(
-    private val service: GitHubService,
+    private val service: GithubService,
     private val dataBase: RepoDataBase
 ) {
 
@@ -22,7 +21,7 @@ class AppRepository(
         //TODO : Pager是什么？
         //TODO : PagingConfig是什么？
         //TODO : RemoteMediator是什么？
-        val dbQuery = "${query.replace(' ', '%')}%"
+        val dbQuery = "%${query.replace(' ', '%')}%"
         val pagingSourceFactory = { dataBase.reposDao().findReposByName(dbQuery) }
 
         return Pager(
