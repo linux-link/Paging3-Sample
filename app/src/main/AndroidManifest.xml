@@ -13,7 +13,7 @@
         android:fullBackupContent="true"
         android:allowBackup="true">
 
-        <activity android:name=".ui.NetworkActivity">
+        <activity android:name=".ui.GithubActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

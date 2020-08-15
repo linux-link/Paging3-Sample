@@ -23,7 +23,7 @@ const val LAST_SEARCH_QUERY: String = "last_search_query"
 const val DEFAULT_QUERY = "Android"
 
 @ExperimentalCoroutinesApi
-class NetworkActivity : AppCompatActivity() {
+class GithubActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGithubBinding
     private lateinit var viewModel: GithubViewModel
