@@ -1,19 +1,16 @@
 package com.wujia.jetpack.paging3.sample.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wujia.jetpack.paging3.sample.AppInjection
-import com.wujia.jetpack.paging3.sample.databinding.ActivityNetworkBinding
-import com.wujia.jetpack.paging3.sample.ui.footer.NetLoadStateAdapter
+import com.wujia.jetpack.paging3.sample.databinding.ActivityGithubBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -28,10 +25,10 @@ const val DEFAULT_QUERY = "Android"
 @ExperimentalCoroutinesApi
 class NetworkActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNetworkBinding
-    private lateinit var viewModel: NetworkViewModel
+    private lateinit var binding: ActivityGithubBinding
+    private lateinit var viewModel: GithubViewModel
     private var adapter =
-        NetworkAdapter()
+        GithubAdapter()
 
     private var searchJob: Job? = null
 
@@ -49,7 +46,7 @@ class NetworkActivity : AppCompatActivity() {
     }
 
     private fun initContentView() {
-        binding = ActivityNetworkBinding.inflate(layoutInflater)
+        binding = ActivityGithubBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
     }
@@ -58,41 +55,14 @@ class NetworkActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this,
             AppInjection.provideViewModelFactory()
-        ).get(NetworkViewModel::class.java)
+        ).get(GithubViewModel::class.java)
     }
 
     private fun initList() {
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(this)
-
-        binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
-            header = NetLoadStateAdapter {
-                adapter.retry()
-            },
-            footer = NetLoadStateAdapter {
-                adapter.retry()
-            }
-        )
-
-        adapter.addLoadStateListener { loadState ->
-            binding.list.isVisible = loadState.source.refresh is LoadState.NotLoading
-            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
-            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
-
-            val errorState = loadState.source.append as? LoadState.Error
-                ?: loadState.source.prepend as? LoadState.Error
-                ?: loadState.append as? LoadState.Error
-                ?: loadState.prepend as? LoadState.Error
-            errorState?.let {
-                Toast.makeText(
-                    this,
-                    "\uD83D\uDE28 Wooops ${it.error}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-        binding.retryButton.setOnClickListener { adapter.retry() }
+        binding.list.adapter = adapter
     }
 
     private fun initSearch(savedInstanceState: Bundle?) {
