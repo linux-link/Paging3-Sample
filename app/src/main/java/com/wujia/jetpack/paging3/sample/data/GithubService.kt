@@ -1,4 +1,4 @@
-package com.wujia.jetpack.paging3.sample.data.remote
+package com.wujia.jetpack.paging3.sample.data
 
 import com.wujia.jetpack.paging3.sample.model.RepoSearchResponse
 import okhttp3.OkHttpClient

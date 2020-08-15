@@ -1,13 +1,15 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.wujia.jetpack.paging3.sample.R
-import com.wujia.jetpack.paging3.sample.ui.net.separator.SeparatorViewHolder
+import com.wujia.jetpack.paging3.sample.ui.separator.SeparatorViewHolder
 
-class NetworkAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
+class NetworkAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(
+    REPO_COMPARATOR
+) {
 
     companion object {
         //TODO : DiffUtil的比对机制
@@ -29,7 +31,9 @@ class NetworkAdapter : PagingDataAdapter<UiModel, RecyclerView.ViewHolder>(REPO_
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == R.layout.item_list) {
-            RepoViewHolder.create(parent)
+            RepoViewHolder.create(
+                parent
+            )
         } else {
             SeparatorViewHolder.create(parent)
         }

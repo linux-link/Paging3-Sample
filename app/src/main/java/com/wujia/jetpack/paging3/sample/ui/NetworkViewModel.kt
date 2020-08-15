@@ -1,4 +1,4 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,14 +6,14 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertSeparators
 import androidx.paging.map
-import com.wujia.jetpack.paging3.sample.data.AppRepository
+import com.wujia.jetpack.paging3.sample.data.NetworkRepository
 import com.wujia.jetpack.paging3.sample.model.Repo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @ExperimentalCoroutinesApi
-class NetworkViewModel(private val repository: AppRepository) : ViewModel() {
+class NetworkViewModel(private val repository: NetworkRepository) : ViewModel() {
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<UiModel>>? = null
@@ -28,7 +28,9 @@ class NetworkViewModel(private val repository: AppRepository) : ViewModel() {
             .getSearchResultStream(queryString)
             .map { pagingData ->
                 pagingData.map {
-                    UiModel.RepoItem(it)
+                    UiModel.RepoItem(
+                        it
+                    )
                 }
             }
             .map {
@@ -37,13 +39,19 @@ class NetworkViewModel(private val repository: AppRepository) : ViewModel() {
                         return@insertSeparators null
                     }
                     if (before == null) {
-                        return@insertSeparators UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                        return@insertSeparators UiModel.SeparatorItem(
+                            "${after.roundedStarCount}0.000+ stars"
+                        )
                     }
                     if (before.roundedStarCount > after.roundedStarCount) {
                         if (after.roundedStarCount >= 1) {
-                            UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                            UiModel.SeparatorItem(
+                                "${after.roundedStarCount}0.000+ stars"
+                            )
                         } else {
-                            UiModel.SeparatorItem("< 10.000+ stars")
+                            UiModel.SeparatorItem(
+                                "< 10.000+ stars"
+                            )
                         }
                     } else {
                         null

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -89,7 +89,9 @@ class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun create(parent: ViewGroup): RepoViewHolder {
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_list, parent, false)
-            return RepoViewHolder(view)
+            return RepoViewHolder(
+                view
+            )
         }
     }
 }

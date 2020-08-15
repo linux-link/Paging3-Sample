@@ -1,4 +1,4 @@
-package com.wujia.jetpack.paging3.sample.ui.net.separator
+package com.wujia.jetpack.paging3.sample.ui.separator
 
 import android.view.LayoutInflater
 import android.view.View

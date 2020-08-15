@@ -1,4 +1,4 @@
-package com.wujia.jetpack.paging3.sample.ui.net.footer
+package com.wujia.jetpack.paging3.sample.ui.footer
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

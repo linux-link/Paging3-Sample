@@ -1,8 +1,7 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
@@ -12,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wujia.jetpack.paging3.sample.component.AppInjection
+import com.wujia.jetpack.paging3.sample.AppInjection
 import com.wujia.jetpack.paging3.sample.databinding.ActivityNetworkBinding
-import com.wujia.jetpack.paging3.sample.ui.net.footer.NetLoadStateAdapter
+import com.wujia.jetpack.paging3.sample.ui.footer.NetLoadStateAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -31,7 +30,8 @@ class NetworkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNetworkBinding
     private lateinit var viewModel: NetworkViewModel
-    private var adapter = NetworkAdapter()
+    private var adapter =
+        NetworkAdapter()
 
     private var searchJob: Job? = null
 
@@ -57,7 +57,7 @@ class NetworkActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(
             this,
-            AppInjection.provideViewModelFactory(this)
+            AppInjection.provideViewModelFactory()
         ).get(NetworkViewModel::class.java)
     }
 

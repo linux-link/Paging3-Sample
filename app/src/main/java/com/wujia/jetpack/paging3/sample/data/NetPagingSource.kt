@@ -1,8 +1,6 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.data
 
 import androidx.paging.PagingSource
-import com.wujia.jetpack.paging3.sample.data.remote.GithubService
-import com.wujia.jetpack.paging3.sample.data.remote.IN_QUALIFIER
 import com.wujia.jetpack.paging3.sample.model.Repo
 import retrofit2.HttpException
 import java.io.IOException
