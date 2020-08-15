@@ -1,8 +1,7 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
@@ -12,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wujia.jetpack.paging3.sample.component.AppInjection
-import com.wujia.jetpack.paging3.sample.databinding.ActivityNetworkBinding
-import com.wujia.jetpack.paging3.sample.ui.net.footer.NetLoadStateAdapter
+import com.wujia.jetpack.paging3.sample.AppInjection
+import com.wujia.jetpack.paging3.sample.databinding.ActivityGithubBinding
+import com.wujia.jetpack.paging3.sample.ui.footer.NetLoadStateAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -27,11 +26,12 @@ const val LAST_SEARCH_QUERY: String = "last_search_query"
 const val DEFAULT_QUERY = "Android"
 
 @ExperimentalCoroutinesApi
-class NetworkActivity : AppCompatActivity() {
+class GithubActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNetworkBinding
-    private lateinit var viewModel: NetworkViewModel
-    private var adapter = NetworkAdapter()
+    private lateinit var binding: ActivityGithubBinding
+    private lateinit var viewModel: GithubViewModel
+    private var adapter =
+        GithubAdapter()
 
     private var searchJob: Job? = null
 
@@ -49,7 +49,7 @@ class NetworkActivity : AppCompatActivity() {
     }
 
     private fun initContentView() {
-        binding = ActivityNetworkBinding.inflate(layoutInflater)
+        binding = ActivityGithubBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
     }
@@ -58,7 +58,7 @@ class NetworkActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this,
             AppInjection.provideViewModelFactory(this)
-        ).get(NetworkViewModel::class.java)
+        ).get(GithubViewModel::class.java)
     }
 
     private fun initList() {

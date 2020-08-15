@@ -10,13 +10,14 @@ import com.wujia.jetpack.paging3.sample.data.local.RepoDatabase
 import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.data.remote.IN_QUALIFIER
 import com.wujia.jetpack.paging3.sample.model.Repo
-import com.wujia.jetpack.paging3.sample.ui.net.DEFAULT_INDEX
 import retrofit2.HttpException
 import java.io.IOException
 import java.io.InvalidObjectException
 
 //TODO: 注解的意思
 //TODO: RemoteMediator的左右
+
+const val DEFAULT_INDEX = 1
 
 @OptIn(ExperimentalPagingApi::class)
 class GithubRemoteMediator(

@@ -8,7 +8,7 @@ import com.wujia.jetpack.paging3.sample.data.remote.GithubService
 import com.wujia.jetpack.paging3.sample.model.Repo
 import kotlinx.coroutines.flow.Flow
 
-const val PAGE_SIZE = 50
+const val PAGE_SIZE = 10
 
 class AppRepository(
     private val service: GithubService,

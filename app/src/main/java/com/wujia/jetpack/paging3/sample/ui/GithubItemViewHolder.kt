@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import android.content.Intent
 import android.net.Uri
@@ -29,7 +29,7 @@ import com.wujia.jetpack.paging3.sample.model.Repo
 /**
  * View Holder for a [Repo] RecyclerView list item.
  */
-class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class GithubItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val name: TextView = view.findViewById(R.id.repo_name)
     private val description: TextView = view.findViewById(R.id.repo_description)
     private val stars: TextView = view.findViewById(R.id.repo_stars)
@@ -86,10 +86,10 @@ class RepoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
 
     companion object {
-        fun create(parent: ViewGroup): RepoViewHolder {
+        fun create(parent: ViewGroup): GithubItemViewHolder {
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_list, parent, false)
-            return RepoViewHolder(view)
+            return GithubItemViewHolder(view)
         }
     }
 }

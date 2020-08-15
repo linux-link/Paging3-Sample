@@ -1,4 +1,4 @@
-package com.wujia.jetpack.paging3.sample.ui.net
+package com.wujia.jetpack.paging3.sample.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 @ExperimentalCoroutinesApi
-class NetworkViewModel(private val repository: AppRepository) : ViewModel() {
+class GithubViewModel(private val repository: AppRepository) : ViewModel() {
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<UiModel>>? = null
@@ -37,13 +37,19 @@ class NetworkViewModel(private val repository: AppRepository) : ViewModel() {
                         return@insertSeparators null
                     }
                     if (before == null) {
-                        return@insertSeparators UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                        return@insertSeparators UiModel.SeparatorItem(
+                            "${after.roundedStarCount}0.000+ stars"
+                        )
                     }
                     if (before.roundedStarCount > after.roundedStarCount) {
                         if (after.roundedStarCount >= 1) {
-                            UiModel.SeparatorItem("${after.roundedStarCount}0.000+ stars")
+                            UiModel.SeparatorItem(
+                                "${after.roundedStarCount}0.000+ stars"
+                            )
                         } else {
-                            UiModel.SeparatorItem("< 10.000+ stars")
+                            UiModel.SeparatorItem(
+                                "< 10.000+ stars"
+                            )
                         }
                     } else {
                         null

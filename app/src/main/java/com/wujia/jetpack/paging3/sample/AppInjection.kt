@@ -1,7 +1,8 @@
-package com.wujia.jetpack.paging3.sample.component
+package com.wujia.jetpack.paging3.sample
 
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
+import com.wujia.jetpack.paging3.sample.common.ViewModelFactory
 import com.wujia.jetpack.paging3.sample.data.AppRepository
 import com.wujia.jetpack.paging3.sample.data.local.RepoDatabase
 import com.wujia.jetpack.paging3.sample.data.remote.GithubService
@@ -21,7 +22,11 @@ object AppInjection {
      * [ViewModel] objects.
      */
     fun provideViewModelFactory(context: Context): ViewModelProvider.Factory {
-        return ViewModelFactory(provideGithubRepository(context))
+        return ViewModelFactory(
+            provideGithubRepository(
+                context
+            )
+        )
     }
 
 }
