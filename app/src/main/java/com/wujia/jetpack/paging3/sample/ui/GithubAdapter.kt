@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.wujia.jetpack.paging3.sample.model.Repo
 
-class GithubAdapter : PagingDataAdapter<Repo, RecyclerView.ViewHolder>(
-    REPO_COMPARATOR
-) {
+class GithubAdapter : PagingDataAdapter<Repo, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
     companion object {
         //TODO : DiffUtil的比对机制
@@ -33,5 +31,4 @@ class GithubAdapter : PagingDataAdapter<Repo, RecyclerView.ViewHolder>(
         val repo = getItem(position)
         (holder as GithubItemViewHolder).bind(repo)
     }
-
 }

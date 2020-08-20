@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ const val LAST_SEARCH_QUERY: String = "last_search_query"
 const val DEFAULT_QUERY = "Android"
 
 @ExperimentalCoroutinesApi
+@ExperimentalPagingApi
 class GithubActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGithubBinding
@@ -63,6 +65,7 @@ class GithubActivity : AppCompatActivity() {
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(this)
         binding.list.adapter = adapter
+
     }
 
     private fun initSearch(savedInstanceState: Bundle?) {
@@ -80,22 +83,11 @@ class GithubActivity : AppCompatActivity() {
                 false
             }
         }
-        binding.etRepository.setOnKeyListener { _, keyCode, event ->
-            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                binding.etRepository.text.trim().let {
-                    if (it.isNotEmpty()) {
-                        search(it.toString())
-                    }
-                }
-                true
-            } else {
-                false
-            }
-        }
         //TODO : lifecycleScope是什么
         //TODO : launch是什么
         lifecycleScope.launch {
-            adapter.loadStateFlow.distinctUntilChangedBy { it.refresh }
+            adapter.loadStateFlow
+                .distinctUntilChangedBy { it.refresh }
                 .filter { it.refresh is LoadState.NotLoading }
                 .collect { binding.list.scrollToPosition(0) }
         }

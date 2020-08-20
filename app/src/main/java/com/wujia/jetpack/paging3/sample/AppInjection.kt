@@ -6,7 +6,6 @@ import com.wujia.jetpack.paging3.sample.data.GithubService
 import com.wujia.jetpack.paging3.sample.data.NetworkRepository
 
 object AppInjection {
-    
     /**
      * Creates an instance of [GithubRepository] based on the [GithubService] and a
      * [GithubLocalCache]
@@ -26,5 +25,4 @@ object AppInjection {
             provideNetworkRepository()
         )
     }
-
 }
