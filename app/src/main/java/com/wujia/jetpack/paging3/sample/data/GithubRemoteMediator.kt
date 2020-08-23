@@ -14,8 +14,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.io.InvalidObjectException
 
-//TODO: 注解的意思
-//TODO: RemoteMediator的左右
 
 const val DEFAULT_INDEX = 1
 

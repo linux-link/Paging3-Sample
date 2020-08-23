@@ -16,11 +16,6 @@ class AppRepository(
 ) {
 
     fun getSearchResultStream(query: String): Flow<PagingData<Repo>> {
-        //TODO : Flow是什么？
-        //TODO : PagingData是什么？
-        //TODO : Pager是什么？
-        //TODO : PagingConfig是什么？
-        //TODO : RemoteMediator是什么？
         val dbQuery = "%${query.replace(' ', '%')}%"
         val pagingSourceFactory = { database.reposDao().findReposByName(dbQuery) }
 
