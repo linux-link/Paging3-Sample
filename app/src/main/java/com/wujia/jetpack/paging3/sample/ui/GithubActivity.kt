@@ -3,7 +3,9 @@ package com.wujia.jetpack.paging3.sample.ui
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
@@ -66,6 +68,27 @@ class GithubActivity : AppCompatActivity() {
         binding.list.layoutManager = LinearLayoutManager(this)
         binding.list.adapter = adapter
 
+        adapter.addLoadStateListener {
+            binding.list.isVisible = it.source.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = it.source.refresh is LoadState.Loading
+            binding.retryButton.isVisible = it.source.refresh is LoadState.Error
+
+            //处理错误状态
+            val errorState = it.source.append as? LoadState.Error
+                ?: it.source.prepend as? LoadState.Error
+                ?: it.source.append as? LoadState.Error
+                ?: it.append as? LoadState.Error
+                ?: it.prepend as? LoadState.Error
+
+            errorState?.let { loadState ->
+                Toast.makeText(this, "${loadState.error}", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.retryButton.setOnClickListener {
+            adapter.retry()
+        }
+
     }
 
     private fun initSearch(savedInstanceState: Bundle?) {
@@ -83,19 +106,13 @@ class GithubActivity : AppCompatActivity() {
                 false
             }
         }
-        //TODO : lifecycleScope是什么
-        //TODO : launch是什么
-        lifecycleScope.launch {
-            adapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.list.scrollToPosition(0) }
-        }
         search(query)
     }
 
     private fun search(query: String) {
+        //取消上一次的协程
         searchJob?.cancel()
+        //以lifecycleScope为作用域，启动一个协程
         searchJob = lifecycleScope.launch {
             viewModel.searchRepo(query).collectLatest {
                 adapter.submitData(it)
