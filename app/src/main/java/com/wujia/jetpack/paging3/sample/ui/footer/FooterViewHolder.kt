@@ -2,13 +2,14 @@ package com.wujia.jetpack.paging3.sample.ui.footer
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.wujia.jetpack.paging3.sample.R
-import com.wujia.jetpack.paging3.sample.databinding.FooterLoadStateViewBinding
+import com.wujia.jetpack.paging3.sample.databinding.FooterViewBinding
 
 class FooterViewHolder(
-    private val binding: FooterLoadStateViewBinding,
+    private val binding: FooterViewBinding,
     retry: () -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -32,8 +33,8 @@ class FooterViewHolder(
     companion object {
         fun create(parent: ViewGroup, retry: () -> Unit): FooterViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.footer_load_state_view, parent, false)
-            val binding = FooterLoadStateViewBinding.bind(view)
+                .inflate(R.layout.footer_view, parent, false)
+            val binding = FooterViewBinding.bind(view)
             return FooterViewHolder(binding, retry)
         }
     }

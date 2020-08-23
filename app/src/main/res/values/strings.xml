@@ -19,7 +19,7 @@
     <string name="loading">Loading</string>
     <string name="language">Language: %s</string>
     <string name="search_hint">GitHub Repository</string>
-    <string name="no_results">No results 😓</string>
+    <string name="header_results">header results 😓</string>
     <string name="unknown">\?</string>
     <string name="retry">Retry</string>
 </resources>

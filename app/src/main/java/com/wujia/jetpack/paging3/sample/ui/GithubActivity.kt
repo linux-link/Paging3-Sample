@@ -1,7 +1,6 @@
 package com.wujia.jetpack.paging3.sample.ui
 
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +13,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wujia.jetpack.paging3.sample.AppInjection
 import com.wujia.jetpack.paging3.sample.databinding.ActivityGithubBinding
+import com.wujia.jetpack.paging3.sample.ui.footer.FooterAdapter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 const val LAST_SEARCH_QUERY: String = "last_search_query"
@@ -66,7 +63,10 @@ class GithubActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(this)
-        binding.list.adapter = adapter
+        //同时给adapter添加头部和尾部
+        binding.list.adapter = adapter.withLoadStateFooter(
+            footer = FooterAdapter { adapter.retry() }
+        )
 
         adapter.addLoadStateListener {
             binding.list.isVisible = it.source.refresh is LoadState.NotLoading
@@ -118,6 +118,10 @@ class GithubActivity : AppCompatActivity() {
                 adapter.submitData(it)
             }
         }
+    }
+
+    private fun action() {
+        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
     }
 
 }
