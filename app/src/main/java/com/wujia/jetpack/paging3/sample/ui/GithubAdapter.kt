@@ -9,7 +9,6 @@ import com.wujia.jetpack.paging3.sample.model.Repo
 class GithubAdapter : PagingDataAdapter<Repo, RecyclerView.ViewHolder>(REPO_COMPARATOR) {
 
     companion object {
-        //TODO : DiffUtil的比对机制
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<Repo>() {
 
             override fun areContentsTheSame(oldItem: Repo, newItem: Repo): Boolean =
