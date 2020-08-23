@@ -8,17 +8,14 @@ import java.io.IOException
 
 const val DEFAULT_INDEX = 1
 
-//TODO: PagingSource是什么？
 class GithubPagingSource(
     private val service: GithubService,
     private val query: String
 ) : PagingSource<Int, Repo>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repo> {
-        //TODO : LoadResult是什么？
         val position = params.key ?: DEFAULT_INDEX
         val apiQuery = query
-        Log.e("TAG", "load: " + params.loadSize)
         return try {
             val response = service.searchRepos(apiQuery, position, params.loadSize)
             val repos = response.items

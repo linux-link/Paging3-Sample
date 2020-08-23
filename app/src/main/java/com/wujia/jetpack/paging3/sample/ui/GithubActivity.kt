@@ -29,9 +29,9 @@ class GithubActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGithubBinding
     private lateinit var viewModel: GithubViewModel
-    private var adapter =
-        GithubAdapter()
+    private var adapter = GithubAdapter()
 
+    //协程
     private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,14 +65,13 @@ class GithubActivity : AppCompatActivity() {
         binding.list.addItemDecoration(decoration)
         binding.list.layoutManager = LinearLayoutManager(this)
         binding.list.adapter = adapter
-
     }
 
     private fun initSearch(savedInstanceState: Bundle?) {
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
         binding.etRepository.setText(query)
-        binding.etRepository.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO) {
+        binding.etRepository.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 binding.etRepository.text.trim().let {
                     if (it.isNotEmpty()) {
                         search(it.toString())
@@ -83,24 +82,17 @@ class GithubActivity : AppCompatActivity() {
                 false
             }
         }
-        //TODO : lifecycleScope是什么
-        //TODO : launch是什么
-        lifecycleScope.launch {
-            adapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .filter { it.refresh is LoadState.NotLoading }
-                .collect { binding.list.scrollToPosition(0) }
-        }
         search(query)
     }
 
     private fun search(query: String) {
+        //取消协程任务
         searchJob?.cancel()
+        //以lifecycleScope为作用域，开启一个协程
         searchJob = lifecycleScope.launch {
             viewModel.searchRepo(query).collectLatest {
                 adapter.submitData(it)
             }
         }
     }
-
 }

@@ -16,7 +16,14 @@ class NetworkRepository(
         val pagingSourceFactory = { GithubPagingSource(service, query) }
 
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false,prefetchDistance = 1),
+            config = PagingConfig(
+                // 每页的item个数。第一页（即首次请求时）pageSize = pageSize * 3 个item
+                pageSize = PAGE_SIZE,
+                // 是否开启占位
+                enablePlaceholders = false,
+                // 距离底部有多少个item时，请求下一页
+                prefetchDistance = 2
+            ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
