@@ -1,6 +1,7 @@
 package com.wujia.jetpack.paging3.sample.ui
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -106,6 +107,19 @@ class GithubActivity : AppCompatActivity() {
                 false
             }
         }
+        binding.etRepository.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                binding.etRepository.text.trim().let {
+                    if (it.isNotEmpty()) {
+                        search(it.toString())
+                    }
+                }
+                true
+            } else {
+                false
+            }
+        }
+        //
         search(query)
     }
 
@@ -119,9 +133,4 @@ class GithubActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun action() {
-        Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
-    }
-
 }
