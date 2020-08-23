@@ -106,6 +106,18 @@ class GithubActivity : AppCompatActivity() {
                 false
             }
         }
+        binding.etRepository.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                binding.etRepository.text.trim().let {
+                    if (it.isNotEmpty()) {
+                        search(it.toString())
+                    }
+                }
+                true
+            } else {
+                false
+            }
+        }
         search(query)
     }
 
